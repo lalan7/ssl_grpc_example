@@ -16,14 +16,6 @@ class ServerServicer(service_pb2_grpc.ServerServicer):
 def main():
     port = '8080'
 
-    with open('tls/tls.key', 'rb') as f:
-        private_key = f.read()
-    with open('tls/tls.crt', 'rb') as f:
-        certificate_chain = f.read()
-
-    server_credentials = grpc.ssl_server_credentials(
-      ((private_key, certificate_chain,),))
-
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=1))
     service_pb2_grpc.add_ServerServicer_to_server(ServerServicer(), server)
 
